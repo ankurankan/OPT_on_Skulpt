@@ -1488,6 +1488,7 @@
 
     Sk.abstr.numberBinOp = function (a, b, c) {
 	console.trace();
+	console.log("a", a, "b", b, "c", c);
         var d = Sk.abstr.boNumPromote_[c];
 //        console.log("first d", d);
         if (d !== undefined) {
@@ -11924,7 +11925,23 @@
 			console.log("value", a.body[i].value.s.v);
 			console.log("lineno", a.body[i].lineno);
 			}
-		
+		else if (a.body[i].value._astname == "List"){
+			console.log("ordered globals", a.body[i].targets[0].id.v);
+			var value = new Array();
+			for (j = 0; j<a.body[i].value.elts.length; j++){
+				if a.body[i].value.elts[j]._astname == "List"{
+					//call the function for list process
+				}
+				else if a.body[i].value.elts[j]._astname == "Num"{
+					value[j] = a.body[i].value.elts[j].n;				
+				}
+				else if a.body[i].value.elts[j]._astname == "Str"{
+					//process 
+				//else if process dictionary
+			}
+			console.log("value", value);
+			console.log("lineno", a.body[i].lineno);
+			}
 		else if (a.body[i].value._astname == "BinOp"){
 			if (a.body[i].value.left._astname == "Num"){
 				console.log("ordered globals", a.body[i].targets[0].id.v);
