@@ -11903,8 +11903,53 @@
         a.nl && out("Sk.misceval.print_(", '"\\n");')
     };
 
+////////////////////////////my functions /////////////////////////////////////////
 
-
+value = function(obj){
+    if (obj._astname == "Num"){
+	return (obj.n);
+    }
+    else if (obj._astname == "Str"){
+	return (obj.s.v);
+    }
+    else if (obj._astname == "List") {
+	var values = new Array();
+	for (j=0; j<obj.elts.length; j++){
+	    values[j] = value(obj.elts[j]);				
+	}
+	console.log(values);
+	return(values);
+    }
+    else if (obj._astname == "Dict"){
+	var values = new Array();
+	var keys = new Array();
+	for (j=0; j<obj.keys.length; j++){
+	    keys[j] = value(obj.keys[j]);
+	    values[j] = value(obj.values[j]);
+	}
+	return([keys, values]);
+    }
+    else if (obj._astname == "BinOp"){
+	if (a.body[i].value.left._astname == "Num"){
+	    console.log("value", Sk.abstr.numberBinOp( a.body[i].value.left.n , a.body[i].value.right.n, a.body[i].value.op.prototype._astname));
+	}
+	else{
+	    console.log("value", Sk.abstr.numberBinOp (a.body[i].value.left.s, a.body[i].value.right.s, a.body[i].value.op.prototype._astname).v);
+	}
+    }
+}
+/**	value_List = function (obj){
+			var value = new Array();
+			for (j =0; j<obj.elts.length; j++){
+				value[j] = obj.elts[j].n;
+				};
+			};
+	value_Dict = function (obj){
+			var values = new Array();
+			var keys = new Array();
+			for (j=0; j<obj.keys.length; j++){
+								
+**/
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
@@ -11915,45 +11960,60 @@
 
 
 	for (i = 0; i< a.body.length;i++){
-		if (a.body[i].value._astname == "Num"){
-			console.log("ordered globals", a.body[i].targets[0].id.v);
-			console.log("value", a.body[i].value.n);
-			console.log("lineno", a.body[i].lineno);
-			}
-		else if (a.body[i].value._astname == "Str"){
-			console.log("ordered globals", a.body[i].targets[0].id.v);
-			console.log("value", a.body[i].value.s.v);
-			console.log("lineno", a.body[i].lineno);
-			}
-		else if (a.body[i].value._astname == "List"){
-			console.log("ordered globals", a.body[i].targets[0].id.v);
-			var value = new Array();
-			for (j = 0; j<a.body[i].value.elts.length; j++){
-				if a.body[i].value.elts[j]._astname == "List"{
-					//call the function for list process
-				}
-				else if a.body[i].value.elts[j]._astname == "Num"{
-					value[j] = a.body[i].value.elts[j].n;				
-				}
-				else if a.body[i].value.elts[j]._astname == "Str"{
-					//process 
-				//else if process dictionary
-			}
-			console.log("value", value);
-			console.log("lineno", a.body[i].lineno);
-			}
-		else if (a.body[i].value._astname == "BinOp"){
-			if (a.body[i].value.left._astname == "Num"){
-				console.log("ordered globals", a.body[i].targets[0].id.v);
-				console.log("value", Sk.abstr.numberBinOp( a.body[i].value.left.n , a.body[i].value.right.n, a.body[i].value.op.prototype._astname));
-				console.log("lineno", a.body[i].lineno);
-				}
-			else{
-				console.log("ordered globals", a.body[i].targets[0].id.v);
-				console.log("value", Sk.abstr.numberBinOp (a.body[i].value.left.s, a.body[i].value.right.s, a.body[i].value.op.prototype._astname).v);
-				console.log("lineno", a.body[i].lineno);
-				}
-			}
+	    console.log("ordered globals", a.body[i].targets[0].id.v);
+	    console.log("value", value(a.body[i].value));
+	    console.log("lineno", a.body[i].lineno);
+
+/**
+	    if (a.body[i].value._astname == "Num"){
+		console.log("ordered globals", a.body[i].targets[0].id.v);
+		console.log("value", a.body[i].value.n);
+		console.log("lineno", a.body[i].lineno);
+	    }
+	    else if (a.body[i].value._astname == "Str"){
+		console.log("ordered globals", a.body[i].targets[0].id.v);
+		console.log("value", a.body[i].value.s.v);
+		console.log("lineno", a.body[i].lineno);
+	    }
+	    else if (a.body[i].value._astname == "List"){
+		console.log("ordered globals", a.body[i].targets[0].id.v);
+		var value = new Array();
+		for (j = 0; j<a.body[i].value.elts.length; j++){
+		    if (a.body[i].value.elts[j]._astname == "List"){
+			//call the function for list process
+		    }
+		    else if (a.body[i].value.elts[j]._astname == "Num"){
+			value[j] = a.body[i].value.elts[j].n;				
+		    }
+		    else if (a.body[i].value.elts[j]._astname == "Str"){
+			//process 
+			//else if process dictionary
+		    }
+		    console.log("value", value);
+		    console.log("lineno", a.body[i].lineno);
+		}
+	    }
+	    else if (a.body[i].value._astname == "Dict"){
+		var keys = new Array();
+		var values = new Array();
+		for (j = 0; j<a.body[i].value.keys.length; j++){
+		    // keys [j] == process the value
+		    // values[j] == process the value				
+		}			
+	    }
+	    else if (a.body[i].value._astname == "BinOp"){
+		if (a.body[i].value.left._astname == "Num"){
+		    console.log("ordered globals", a.body[i].targets[0].id.v);
+		    console.log("value", Sk.abstr.numberBinOp( a.body[i].value.left.n , a.body[i].value.right.n, a.body[i].value.op.prototype._astname));
+		    console.log("lineno", a.body[i].lineno);
+		}
+		else{
+		    console.log("ordered globals", a.body[i].targets[0].id.v);
+		    console.log("value", Sk.abstr.numberBinOp (a.body[i].value.left.s, a.body[i].value.right.s, a.body[i].value.op.prototype._astname).v);
+		    console.log("lineno", a.body[i].lineno);
+		}
+	    }
+**/
 	}
 
 
