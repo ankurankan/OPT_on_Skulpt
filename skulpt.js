@@ -1488,31 +1488,15 @@
 
     Sk.abstr.numberBinOp = function (a, b, c) {
 	console.trace();
-	console.log("a", a, "b", b, "c", c);
         var d = Sk.abstr.boNumPromote_[c];
-//        console.log("first d", d);
         if (d !== undefined) {
             d = Sk.abstr.numOpAndPromote(a, b, d);
-//            console.log("second d", d);
-            
-            
-            
-            
-///// Inline operation done here 
-//	        console.log("inline operation", d);
-	    
-	    
-	    
             if (typeof d === "number") return d;
             else if (d !== undefined) {
                 a = d[0];
                 b = d[1]
             }
         }
-//        console.log("I even reached here");
-//        console.log("a", a);
-//        console.log("b", b);
-//        console.log("c", c);
         return Sk.abstr.binary_op_(a, b, c)
     };
     
@@ -11930,15 +11914,58 @@ value = function(obj){
 	return([keys, values]);
     }
     else if (obj._astname == "BinOp"){
-	if (a.body[i].value.left._astname == "Num"){
-	    console.log("value", Sk.abstr.numberBinOp( a.body[i].value.left.n , a.body[i].value.right.n, a.body[i].value.op.prototype._astname));
+	return(BinOper(obj));
+
+/*	var left = obj.left;
+	var right = obj.right;
+	console.log(left);
+	console.log(right);
+	if (left._astname == "BinOp"){
+	    left = value(left);
 	}
-	else{
-	    console.log("value", Sk.abstr.numberBinOp (a.body[i].value.left.s, a.body[i].value.right.s, a.body[i].value.op.prototype._astname).v);
+	if (left._astname == "Num"){
+	    left = left.n;
 	}
+	if (right._astname == "Num"){
+	    right = right.n;
+	}
+	if (left._astname == "Str"){
+	    left = left.s;
+	}
+	if (right._astname == "Str"){
+	    right = right.s;
+	}
+	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
+*/
     }
 }
-/**	value_List = function (obj){
+
+BinOper = function (obj){
+    var left = obj.left;
+    var right = obj.right;
+    if (left._astname == "BinOp"){
+	left = BinOper(left);
+    }
+    console.log(right);
+    if (left._astname == "Num"){
+	left = left.n;
+    }
+    if (right._astname == "Num"){
+	right = right.n;
+    }
+    if (left._astname == "Str"){
+	left = left.s;
+    }
+    if (right._astname = "Str"){
+	right = right.s;
+    }
+    console.log(left);
+    console.log(right);
+    return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
+}
+
+/*
+	value_List = function (obj){
 			var value = new Array();
 			for (j =0; j<obj.elts.length; j++){
 				value[j] = obj.elts[j].n;
@@ -11949,7 +11976,8 @@ value = function(obj){
 			var keys = new Array();
 			for (j=0; j<obj.keys.length; j++){
 								
-**/
+
+*/
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
@@ -11958,13 +11986,12 @@ value = function(obj){
 
 ////////////////////////////////mycode/////////////////////////////////	
 
-
 	for (i = 0; i< a.body.length;i++){
 	    console.log("ordered globals", a.body[i].targets[0].id.v);
 	    console.log("value", value(a.body[i].value));
 	    console.log("lineno", a.body[i].lineno);
 
-/**
+/*
 	    if (a.body[i].value._astname == "Num"){
 		console.log("ordered globals", a.body[i].targets[0].id.v);
 		console.log("value", a.body[i].value.n);
@@ -12013,9 +12040,8 @@ value = function(obj){
 		    console.log("lineno", a.body[i].lineno);
 		}
 	    }
-**/
+*/
 	}
-
 
 /////////////////////////////////////////////////////////////////////
         var b = this.enterScope(new Sk.builtin.str("<module>"), a, 0),
