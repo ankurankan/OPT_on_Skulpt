@@ -11937,30 +11937,29 @@ value = function(obj){
 	}
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
+
     }
 }
 
 BinOper = function (obj){
-    var left = obj.left;
-    var right = obj.right;
-    if (left._astname == "BinOp"){
-	left = BinOper(left);
+    console.log("upper check", obj);
+    if (obj.left._astname == "BinOp"){
+	left = BinOper(obj.left);
     }
-    console.log(right);
-    if (left._astname == "Num"){
-	left = left.n;
+    if (obj.left._astname == "Num"){
+	left = obj.left.n;
     }
-    if (right._astname == "Num"){
-	right = right.n;
+    if (obj.right._astname == "Num"){
+	right = obj.right.n;
     }
-    if (left._astname == "Str"){
-	left = left.s;
+    if (obj.left._astname == "Str"){
+	left = obj.left.s;
     }
-    if (right._astname = "Str"){
-	right = right.s;
+    if (obj.right._astname == "Str"){
+	right = obj.right.s;
     }
-    console.log(left);
-    console.log(right);
+    console.log("final left", left , "final right", right);
+    console.log("function call", Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
     return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 }
 
