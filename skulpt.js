@@ -11888,7 +11888,7 @@
     };
 
 ////////////////////////////my functions /////////////////////////////////////////
-
+/*
 value = function(obj){
     if (obj._astname == "Num"){
 	return (obj.n);
@@ -11915,7 +11915,7 @@ value = function(obj){
     }
     else if (obj._astname == "BinOp"){
 	return(BinOper(obj));
-
+*/
 /*	var left = obj.left;
 	var right = obj.right;
 	console.log(left);
@@ -11937,7 +11937,7 @@ value = function(obj){
 	}
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
-
+/*
     }
 }
 
@@ -11958,11 +11958,9 @@ BinOper = function (obj){
     if (obj.right._astname == "Str"){
 	right = obj.right.s;
     }
-    console.log("final left", left , "final right", right);
-    console.log("function call", Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
     return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 }
-
+*/
 /*
 	value_List = function (obj){
 			var value = new Array();
@@ -11985,9 +11983,20 @@ BinOper = function (obj){
 
 ////////////////////////////////mycode/////////////////////////////////	
 
+	ref_no = 0
 	for (i = 0; i< a.body.length;i++){
-	    console.log("ordered globals", a.body[i].targets[0].id.v);
-	    console.log("value", value(a.body[i].value));
+//	    console.log("ordered globals", a.body[i].targets[0].id.v);                     //for assignment
+	    console.log("ordered globals", a.body[i].name.v);
+//	    console.log("value", value(a.body[i].value));                                  // in case of assignments
+	    ref_no+=1;
+	    console.log("globals", a.body[i].name.v,":[","REF,", ref_no,"]");
+	    arg_list = "(";
+	    for (j = 0; j<a.body[i].args.args.length-1; j++){
+		arg_list += a.body[i].args.args[j].id.v ;
+	    }
+	    arg_list += a.body[i].args.args[a.body[i].args.args.length-1].id.v;
+	    arg_list+= ")";
+	    console.log("heap", ref_no ,"FUNCTION",a.body[i].name.v,arg_list, "null");
 	    console.log("lineno", a.body[i].lineno);
 
 /*
