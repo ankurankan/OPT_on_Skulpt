@@ -11982,22 +11982,46 @@ BinOper = function (obj){
 
 
 ////////////////////////////////mycode/////////////////////////////////	
-
+	arg_arr = new Array();
 	ref_no = 0
 	for (i = 0; i< a.body.length;i++){
+	    if (a.body[i]._astname == "FunctionDef"){
 //	    console.log("ordered globals", a.body[i].targets[0].id.v);                     //for assignment
-	    console.log("ordered globals", a.body[i].name.v);
+		console.log("ordered globals", a.body[i].name.v);
 //	    console.log("value", value(a.body[i].value));                                  // in case of assignments
-	    ref_no+=1;
-	    console.log("globals", a.body[i].name.v,":[","REF,", ref_no,"]");
-	    arg_list = "(";
-	    for (j = 0; j<a.body[i].args.args.length-1; j++){
-		arg_list += a.body[i].args.args[j].id.v ;
+		ref_no+=1;
+		console.log("globals", a.body[i].name.v,":[","REF,", ref_no,"]");
+		arg_list = "(";
+		for (j = 0; j<a.body[i].args.args.length; j++){
+		    arg_arr[j] = a.body[i].args.args[j].id.v ;
+		}
+		for (j=0 ; j<a.body[i].args.args.length-1; j++){
+		    arg_list = arg_list + arg_arr[j] + ",";
+		}
+		arg_list += arg_list[a.body[i].args.args.length-1];
+		console.log("heap", ref_no ,"FUNCTION",a.body[i].name.v,arg_list, "null");
+		console.log("lineno", a.body[i].lineno);
 	    }
-	    arg_list += a.body[i].args.args[a.body[i].args.args.length-1].id.v;
-	    arg_list+= ")";
-	    console.log("heap", ref_no ,"FUNCTION",a.body[i].name.v,arg_list, "null");
-	    console.log("lineno", a.body[i].lineno);
+	    frame_id = 1;
+	    unique_hash_no = 1;
+	    else if (a.body[i]._astname == "Expr"){
+		console.log("frame_id" , frame_id);
+		frame_id+=1;
+		for (j=0; j< a.body[i].value.args.length; j++){
+		    console.log("encoded_locals",arg_arr[j], ",",  value(a.body[i].value.args[j]));
+		}
+		console.log("is_highlighted");
+		console.log("is_parent");
+		console.log("func_name", a.body[i].value.func.id.v);
+		console.log("is_zombie");
+		console.log("parent_frame_id_list");
+		unique_hash = a.body[i].value.func.id.v + "_f"+String(unique_hash_no);
+		unique_hash_no += 1;
+		console.log("unique hash", unique_hash);
+		console.log("ordered varnames", arg_arr);
+	    }
+	}
+    }
 
 /*
 	    if (a.body[i].value._astname == "Num"){
@@ -12049,7 +12073,6 @@ BinOper = function (obj){
 		}
 	    }
 */
-	}
 
 /////////////////////////////////////////////////////////////////////
         var b = this.enterScope(new Sk.builtin.str("<module>"), a, 0),
