@@ -11888,7 +11888,7 @@
     };
 
 ////////////////////////////my functions /////////////////////////////////////////
-/*
+
 value = function(obj){
     if (obj._astname == "Num"){
 	return (obj.n);
@@ -11915,7 +11915,7 @@ value = function(obj){
     }
     else if (obj._astname == "BinOp"){
 	return(BinOper(obj));
-*/
+
 /*	var left = obj.left;
 	var right = obj.right;
 	console.log(left);
@@ -11937,7 +11937,7 @@ value = function(obj){
 	}
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
-/*
+
     }
 }
 
@@ -11960,7 +11960,7 @@ BinOper = function (obj){
     }
     return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 }
-*/
+
 /*
 	value_List = function (obj){
 			var value = new Array();
@@ -11983,7 +11983,9 @@ BinOper = function (obj){
 
 ////////////////////////////////mycode/////////////////////////////////	
 	arg_arr = new Array();
-	ref_no = 0
+	ref_no = 0;
+	frame_id = 1;
+	unique_hash_no = 1;
 	for (i = 0; i< a.body.length;i++){
 	    if (a.body[i]._astname == "FunctionDef"){
 //	    console.log("ordered globals", a.body[i].targets[0].id.v);                     //for assignment
@@ -12002,8 +12004,6 @@ BinOper = function (obj){
 		console.log("heap", ref_no ,"FUNCTION",a.body[i].name.v,arg_list, "null");
 		console.log("lineno", a.body[i].lineno);
 	    }
-	    frame_id = 1;
-	    unique_hash_no = 1;
 	    else if (a.body[i]._astname == "Expr"){
 		console.log("frame_id" , frame_id);
 		frame_id+=1;
@@ -12019,9 +12019,9 @@ BinOper = function (obj){
 		unique_hash_no += 1;
 		console.log("unique hash", unique_hash);
 		console.log("ordered varnames", arg_arr);
+		// values after the call has been made
 	    }
 	}
-    }
 
 /*
 	    if (a.body[i].value._astname == "Num"){
