@@ -672,6 +672,7 @@
     };
     var Sk = Sk || {};
     Sk.configure = function (a) {
+	console.trace();
         Sk.output = a.output || Sk.output;
         goog.asserts.assert(typeof Sk.output === "function");
         Sk.debugout = a.debugout || Sk.debugout;
@@ -1332,11 +1333,15 @@
     };
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
+    //breakpoint
+    	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
+        console.log("b", b);
         return Sk.misceval.apply(a, undefined, undefined, undefined, b)
     };
     goog.exportSymbol("Sk.misceval.callsim", Sk.misceval.callsim);
     Sk.misceval.apply = function (a, b, c, d, e) {
+    	console.trace();
         if (typeof a === "function") {
             goog.asserts.assert(d === undefined);
             return a.apply(null, e)
@@ -1348,11 +1353,14 @@
                     for (var g = c.tp$iternext(); g !== undefined; g = c.tp$iternext()) e.push(g)
                 }
                 b && goog.asserts.fail("todo;");
+                console.log("f.call", f.call(a,e,d,b));
+                //breakpoint
                 return f.call(a, e, d, b)
             }
             f = a.__call__;
             if (f !== undefined) {
                 e.unshift(a);
+                console.log("misceval.apply", Sk.misceval.apply(f,d,e,b,c));
                 return Sk.misceval.apply(f, d, e, b, c)
             }
             throw new TypeError("'" + a.tp$name + "' object is not callable");
@@ -1487,7 +1495,7 @@
 
 
     Sk.abstr.numberBinOp = function (a, b, c) {
-	console.trace();
+//	console.trace();
         var d = Sk.abstr.boNumPromote_[c];
         if (d !== undefined) {
             d = Sk.abstr.numOpAndPromote(a, b, d);
@@ -8052,6 +8060,7 @@
         return this
     }
     function Call(a, b, c, d, e, f, g) {
+//	console.trace();
         goog.asserts.assert(a !== null && a !== undefined);
         this.func = a;
         this.args = b;
@@ -11888,7 +11897,7 @@
     };
 
 ////////////////////////////my functions /////////////////////////////////////////
-
+/*
 value = function(obj){
     if (obj._astname == "Num"){
 	return (obj.n);
@@ -11915,7 +11924,7 @@ value = function(obj){
     }
     else if (obj._astname == "BinOp"){
 	return(BinOper(obj));
-
+/*
 /*	var left = obj.left;
 	var right = obj.right;
 	console.log(left);
@@ -11937,7 +11946,7 @@ value = function(obj){
 	}
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
-
+/*
     }
 }
 
@@ -11960,7 +11969,7 @@ BinOper = function (obj){
     }
     return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 }
-
+*/
 /*
 	value_List = function (obj){
 			var value = new Array();
@@ -11982,7 +11991,10 @@ BinOper = function (obj){
 
 
 ////////////////////////////////mycode/////////////////////////////////	
-	arg_arr = new Array();
+/*	function call 
+	f.call on line no 1356
+*/
+/*	arg_arr = new Array();
 	ref_no = 0;
 	frame_id = 1;
 	unique_hash_no = 1;
@@ -12022,7 +12034,7 @@ BinOper = function (obj){
 		// values after the call has been made
 	    }
 	}
-
+*/
 /*
 	    if (a.body[i].value._astname == "Num"){
 		console.log("ordered globals", a.body[i].targets[0].id.v);
@@ -12199,6 +12211,7 @@ BinOper = function (obj){
                 }
                 return j.join("\n")
             }(i.code);
+		console.log("debug", Sk.debugout(a));
             Sk.debugout(a)
         }
         a += "\n" + i.funcname + "(" + ("new Sk.builtin.str('" + c + "')") + ");";
