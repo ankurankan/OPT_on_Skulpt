@@ -11897,7 +11897,7 @@
     };
 
 ////////////////////////////my functions /////////////////////////////////////////
-/*
+
 value = function(obj){
     if (obj._astname == "Num"){
 	return (obj.n);
@@ -11924,7 +11924,10 @@ value = function(obj){
     }
     else if (obj._astname == "BinOp"){
 	return(BinOper(obj));
-/*
+    }
+}
+
+
 /*	var left = obj.left;
 	var right = obj.right;
 	console.log(left);
@@ -11946,9 +11949,6 @@ value = function(obj){
 	}
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
-/*
-    }
-}
 
 BinOper = function (obj){
     console.log("upper check", obj);
@@ -11968,8 +11968,8 @@ BinOper = function (obj){
 	right = obj.right.s;
     }
     return(Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
-}
-*/
+};
+
 /*
 	value_List = function (obj){
 			var value = new Array();
@@ -11984,13 +11984,62 @@ BinOper = function (obj){
 								
 
 */
+//////////////////////////////////////variables////////////////////////////
+var code;
+var trace;
+var temp_trace;
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
         console.log("a", a);
+	console.trace();
 
 
 ////////////////////////////////mycode/////////////////////////////////	
+	trace = {"code":code,
+		 "trace":[
+		     {
+			 "ordered_globals":[],
+			 "stdout":"",
+			 "func_name":"<module>",
+			 "stack_to_render":[],
+			 "globals":{},
+			 "heap":{},
+			 "line":1,
+			 "event":"step_line"
+		     }
+		 ]
+		};
+
+	temp_trace = { "trace":
+	    {
+		"ordered_globals":[],
+		"stdout":"",
+		"func_name":"<module>",
+		"stack_to_render":[],
+		"globals":{},
+		"heap":{},
+		"line":1,
+		"event":"step_line"
+	    }
+		     };
+	console.log("trace", trace);
+	console.log("temp_trace", temp_trace);
+	for (i = 0; i < a.body.length; i++){
+	    if (a.body[i]._astname == "Assign"){
+		temp_trace.trace.ordered_globals.push("a");
+		temp_trace.trace.globals["a"] = 6;
+//		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
+//		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
+//		console.log("temp_trace", temp_trace.trace.ordered_globals);
+//		console.log("temp_trace_globals", temp_trace.trace.globals);
+//		console.log("ordered globals", a.body[i].targets[0].id.v);
+//		console.log("value",value(a.body[i].value));
+		console.log("temp_trace", temp_trace);
+		trace.trace.push(temp_trace);
+	    }
+	}
+	    
 /*	function call 
 	f.call on line no 1356
 */
@@ -12237,7 +12286,6 @@ BinOper = function (obj){
     };
 
 
-var code;
     Sk.importMainWithBody = function (a, b, c) {
 	code = c;
         return Sk.importModuleInternal_(a, b, "__main__", c)
