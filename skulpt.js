@@ -11987,7 +11987,7 @@ BinOper = function (obj){
 //////////////////////////////////////variables////////////////////////////
 var code;
 var trace;
-var temp_trace;
+var temp_trace = new Array();
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
@@ -12023,20 +12023,38 @@ var temp_trace;
 		"event":"step_line"
 	    }
 		     };
-	console.log("trace", trace);
-	console.log("temp_trace", temp_trace);
+//	console.log("trace", trace);
+//	console.log("temp_trace", temp_trace);
+	ref_no = 1;
 	for (i = 0; i < a.body.length; i++){
 	    if (a.body[i]._astname == "Assign"){
-		temp_trace.trace.ordered_globals.push("a");
-		temp_trace.trace.globals["a"] = 6;
-//		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
-//		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
+		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
+		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
 //		console.log("temp_trace", temp_trace.trace.ordered_globals);
 //		console.log("temp_trace_globals", temp_trace.trace.globals);
 //		console.log("ordered globals", a.body[i].targets[0].id.v);
 //		console.log("value",value(a.body[i].value));
-		console.log("temp_trace", temp_trace);
-		trace.trace.push(temp_trace);
+//		console.log("temp_trace", temp_trace);
+		trace.trace.push(temp_trace.trace);
+	    }
+	    else if (a.body[i]._astname == "FunctionDef"){
+	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
+	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF",ref_no];
+	    	ref_no+=1;
+	    	arg_list = "(";
+	    	arg_arr = new Array();
+	    	//problem with heap
+	    	for (j =0; j<a.body[i].args.args.lenght; j++){
+	    		arg_arr[j] = a.body[i].args.args[j].id.v;
+	    	}
+	    	for (j=0; j<a.body[i].args.args.length;j++){
+	    		arg_list = arg_list+arg_arr[j] +",";
+	    	}
+	    	arg_list += arg_list[a.body[i].args.args.length-1];
+	    	arg_list = "a.body[i].name.v" + arg_list;
+	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
+	    	trace.trace.push(temp_trace.trace);
+	    	console.log(trace);
 	    }
 	}
 	    
