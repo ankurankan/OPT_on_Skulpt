@@ -1334,13 +1334,15 @@
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
     //breakpoint
+    	console.log("tracing Sk.misceval.callsim");
     	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
-        console.log("b", b);
+//        console.log("b", b);
         return Sk.misceval.apply(a, undefined, undefined, undefined, b)
     };
     goog.exportSymbol("Sk.misceval.callsim", Sk.misceval.callsim);
     Sk.misceval.apply = function (a, b, c, d, e) {
+    	console.log("tracing Sk.misceval.apply");
     	console.trace();
         if (typeof a === "function") {
             goog.asserts.assert(d === undefined);
@@ -1353,7 +1355,7 @@
                     for (var g = c.tp$iternext(); g !== undefined; g = c.tp$iternext()) e.push(g)
                 }
                 b && goog.asserts.fail("todo;");
-                console.log("f.call", f.call(a,e,d,b));
+//                console.log("f.call", f.call(a,e,d,b));
                 //breakpoint
                 return f.call(a, e, d, b)
             }
@@ -11925,6 +11927,9 @@ value = function(obj){
     else if (obj._astname == "BinOp"){
 	return(BinOper(obj));
     }
+    else if (obj._astname == "Call"){
+//    	return(f.call);
+    }
 }
 
 
@@ -11985,6 +11990,7 @@ BinOper = function (obj){
 
 */
 //////////////////////////////////////variables////////////////////////////
+var unique_hash_no = 1, frame_id = 1;
 var code;
 var trace;
 var temp_trace = new Array();
@@ -11992,7 +11998,6 @@ var temp_trace = new Array();
 
     Compiler.prototype.cmod = function (a) {
         console.log("a", a);
-	console.trace();
 
 
 ////////////////////////////////mycode/////////////////////////////////	
@@ -12054,8 +12059,29 @@ var temp_trace = new Array();
 	    	arg_list = "a.body[i].name.v" + arg_list;
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
 	    	trace.trace.push(temp_trace.trace);
-	    	console.log(trace);
 	    }
+	    else if (a.body[i]._astname == "Expr"){
+	    	if a.body[i].value._astname == "Call"{
+	    		func_name = a.body[i].value.func.id.v;
+	    		console.log("func_name", func_name);
+	    		console.log("frame_id", frame_id);
+	    		frame_id += 1;
+	    		unique_hash = a.body[i].value.func.id.v + "_f"+ String(unique_hash_no);
+	    		console.log("unique_hash", unique_hash);
+	    		func_args_vars = trace.trace[trace.trace.length-1].heap.String(trace.trace[trace.trace.length-1].globals.func_name[1])[1].split("(")[1].split(",");
+	    		func_args_vars[func_args_vars.length-1] = func_args_vars[func_args_vars.length-1].split("(")[0];
+	    		console.log("ordered_varnames", func_args_vars);
+	    		func_args_values = a.body[i].value.args;
+	    		for (z = 0; z< func_args_values.length ; z++){
+	    			func_args_values[z] = value(func_args_values[z]);
+	    		}
+	    		console.log("encoded locals");
+	    		for (z = 0; z<func_args_values.length ; z++){
+	    			console.log(func_args_vars[z], func_args_values[z]
+	    		}
+	    	}
+	    };
+//	    console.log("trace", trace);
 	}
 	    
 /*	function call 
