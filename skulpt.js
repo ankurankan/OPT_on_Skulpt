@@ -12001,6 +12001,7 @@ var temp_trace = new Array();
 
 
 ////////////////////////////////mycode/////////////////////////////////	
+
 	trace = {"code":code,
 		 "trace":[
 		     {
@@ -12032,7 +12033,15 @@ var temp_trace = new Array();
 //	console.log("temp_trace", temp_trace);
 	ref_no = 1;
 	for (i = 0; i < a.body.length; i++){
-	    if (a.body[i]._astname == "Assign"){
+		//simple print
+	    if (a.body[i]._astname == "Print"){
+	    	var to_print='';
+	    	for (z = 0; z<a.body[i].values.length; z++){
+	    		to_print+= String(value(a.body[i].values[z])) + " ";
+	    	console.log("to_print", to_print);
+	    	}
+	    }
+	    else if (a.body[i]._astname == "Assign"){
 		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
 		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
 //		console.log("temp_trace", temp_trace.trace.ordered_globals);
@@ -12061,7 +12070,7 @@ var temp_trace = new Array();
 	    	trace.trace.push(temp_trace.trace);
 	    }
 	    else if (a.body[i]._astname == "Expr"){
-	    	if a.body[i].value._astname == "Call"{
+	    	if (a.body[i].value._astname == "Call"){
 	    		func_name = a.body[i].value.func.id.v;
 	    		console.log("func_name", func_name);
 	    		console.log("frame_id", frame_id);
@@ -12077,12 +12086,18 @@ var temp_trace = new Array();
 	    		}
 	    		console.log("encoded locals");
 	    		for (z = 0; z<func_args_values.length ; z++){
-	    			console.log(func_args_vars[z], func_args_values[z]
+	    			console.log(func_args_vars[z], func_args_values[z]);
 	    		}
 	    	}
-	    };
+	    }
+	    else if (a.body[i]._astname == "ClassDef"){
+	    	console.log("name", a.body[i].name.v);
+	    	//call this function
+	    }
 //	    console.log("trace", trace);
-	}
+	};
+	    
+	    
 	    
 /*	function call 
 	f.call on line no 1356
