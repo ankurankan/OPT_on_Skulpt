@@ -11900,6 +11900,8 @@
 
 ////////////////////////////my functions /////////////////////////////////////////
 
+//Extracting values from various objects
+
 value = function(obj){
     if (obj._astname == "Num"){
 	return (obj.n);
@@ -11955,6 +11957,9 @@ value = function(obj){
 	return (Sk.abstr.numberBinOp(left,right,obj.op.prototype._astname));
 */
 
+
+//Recursion function for binary operations
+
 BinOper = function (obj){
     console.log("upper check", obj);
     if (obj.left._astname == "BinOp"){
@@ -12001,7 +12006,7 @@ var temp_trace = new Array();
 
 
 ////////////////////////////////mycode/////////////////////////////////	
-
+      // trace to be sent back to the frontend
 	trace = {"code":code,
 		 "trace":[
 		     {
@@ -12016,7 +12021,9 @@ var temp_trace = new Array();
 		     }
 		 ]
 		};
-
+		
+		
+	// trace for each execution step
 	temp_trace = { "trace":
 	    {
 		"ordered_globals":[],
@@ -12032,6 +12039,8 @@ var temp_trace = new Array();
 //	console.log("trace", trace);
 //	console.log("temp_trace", temp_trace);
 	ref_no = 1;
+	
+	// Examining each step of the execution
 	for (i = 0; i < a.body.length; i++){
 		//simple print
 	    if (a.body[i]._astname == "Print"){
@@ -12041,6 +12050,8 @@ var temp_trace = new Array();
 	    	console.log("to_print", to_print);
 	    	}
 	    }
+	    
+	    // For assignment operations
 	    else if (a.body[i]._astname == "Assign"){
 		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
 		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
@@ -12051,6 +12062,8 @@ var temp_trace = new Array();
 //		console.log("temp_trace", temp_trace);
 		trace.trace.push(temp_trace.trace);
 	    }
+	    
+	    // For function Definations
 	    else if (a.body[i]._astname == "FunctionDef"){
 	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
 	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF",ref_no];
@@ -12069,6 +12082,8 @@ var temp_trace = new Array();
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
 	    	trace.trace.push(temp_trace.trace);
 	    }
+	    
+	    // For function calls 
 	    else if (a.body[i]._astname == "Expr"){
 	    	if (a.body[i].value._astname == "Call"){
 	    		func_name = a.body[i].value.func.id.v;
@@ -12090,6 +12105,8 @@ var temp_trace = new Array();
 	    		}
 	    	}
 	    }
+	    
+	    //For class definations
 	    else if (a.body[i]._astname == "ClassDef"){
 	    	console.log("name", a.body[i].name.v);
 	    	//call this function
