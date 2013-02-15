@@ -672,7 +672,7 @@
     };
     var Sk = Sk || {};
     Sk.configure = function (a) {
-	console.trace();
+//	console.trace();
         Sk.output = a.output || Sk.output;
         goog.asserts.assert(typeof Sk.output === "function");
         Sk.debugout = a.debugout || Sk.debugout;
@@ -1334,16 +1334,16 @@
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
     //breakpoint
-    	console.log("tracing Sk.misceval.callsim");
-    	console.trace();
+//    	console.log("tracing Sk.misceval.callsim");
+//    	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
 //        console.log("b", b);
         return Sk.misceval.apply(a, undefined, undefined, undefined, b)
     };
     goog.exportSymbol("Sk.misceval.callsim", Sk.misceval.callsim);
     Sk.misceval.apply = function (a, b, c, d, e) {
-    	console.log("tracing Sk.misceval.apply");
-    	console.trace();
+//    	console.log("tracing Sk.misceval.apply");
+//    	console.trace();
         if (typeof a === "function") {
             goog.asserts.assert(d === undefined);
             return a.apply(null, e)
@@ -1362,7 +1362,7 @@
             f = a.__call__;
             if (f !== undefined) {
                 e.unshift(a);
-                console.log("misceval.apply", Sk.misceval.apply(f,d,e,b,c));
+//                console.log("misceval.apply", Sk.misceval.apply(f,d,e,b,c));
                 return Sk.misceval.apply(f, d, e, b, c)
             }
             throw new TypeError("'" + a.tp$name + "' object is not callable");
@@ -12108,7 +12108,36 @@ var temp_trace = new Array();
 	    
 	    //For class definations
 	    else if (a.body[i]._astname == "ClassDef"){
+	    	frame_id = 1;
 	    	console.log("name", a.body[i].name.v);
+	    	console.log("frame_id", frame_id);
+	    	frame_id+=1
+	    	var unique_hash = String(a.body[i].name.v)+ "f_" + String(unique_hash_no);
+	    	console.log("func_name", a.body[i].name.v);
+	    	console.log("unique_hash", unique_hash);
+	    	var_arr = new Array();
+	    	var_value = new Array();
+	    	for (z = 0; z<a.body[i].body.length; z++){
+	    		console.log("z", z);
+	    		if (z == a.body[i].body.length-1){
+	    			//add the __return__ statement
+	    			console.log("encoded_locals", "__return__:[ REF", ref_no, "]");
+	    			console.log("ordered_varnames", a.body[i].body[z].targets[0].id.v, "__return__");
+	    			var_arr.push(a.body[i].body[z].targets[0].id.v);
+	    			var_value.push(value(a.body[i].body[z].value));
+	    			for (x = 0; x<var_arr.length ; x++){
+	    				console.log(var_arr[x], var_value[x]);
+	    			}
+	    			console.log("heap", "DICT" , var_arr, var_value);
+	    		}
+	    		if (a.body[i].body[i]._astname == "Assign"){
+	    			console.log("encoded_locals", a.body[i].body[z].targets[0].id.v);
+	    			var_arr.push(a.body[i].body[z].targets[0].id.v);
+	    			console.log("value", value(a.body[i].body[z].value));
+	    			var_value.push(value(a.body[i].body[z].value));
+	    			console.log("ordered_varnames", a.body[i].body[z].targets[0].id.v);
+	    		}
+	    	}
 	    	//call this function
 	    }
 //	    console.log("trace", trace);
