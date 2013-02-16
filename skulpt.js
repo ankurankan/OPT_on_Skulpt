@@ -12098,6 +12098,11 @@ var temp_trace = new Array();
 	    	console.log("temp_trace", temp_trace);
 	    }
 	    
+	    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    ////////                Check for top frames and set is_highlighted = true for it                                                       /////////
+	    ////////                for is_parent, is_zombie, parent_frame_id_list dig into OPT                                                     /////////
+	    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    
 	    // For function calls 
 	    else if (a.body[i]._astname == "Expr"){
 	    	if (a.body[i].value._astname == "Call"){
