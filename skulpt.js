@@ -12036,6 +12036,18 @@ var temp_trace = new Array();
 		"event":"step_line"
 	    }
 		     };
+    
+    stack_to_render = {
+          "frame_id": 1, 
+          "encoded_locals": {}, 
+          "is_highlighted": true, 
+          "is_parent": false, 
+          "func_name": "", 
+          "is_zombie": false, 
+          "parent_frame_id_list": [], 
+          "unique_hash": "", 
+          "ordered_varnames": []
+        };
 //	console.log("trace", trace);
 //	console.log("temp_trace", temp_trace);
 	ref_no = 1;
@@ -12048,6 +12060,8 @@ var temp_trace = new Array();
 	    	for (z = 0; z<a.body[i].values.length; z++){
 	    		to_print+= String(value(a.body[i].values[z])) + " ";
 	    	console.log("to_print", to_print);
+	    	temp_trace.trace.stdout += to_print;
+	    	trace.push(temp_trace.trace);
 	    	}
 	    }
 	    
@@ -12081,6 +12095,7 @@ var temp_trace = new Array();
 	    	arg_list = "a.body[i].name.v" + arg_list;
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
 	    	trace.trace.push(temp_trace.trace);
+	    	console.log("temp_trace", temp_trace);
 	    }
 	    
 	    // For function calls 
@@ -12130,12 +12145,21 @@ var temp_trace = new Array();
 	    			}
 	    			console.log("heap", "DICT" , var_arr, var_value);
 	    		}
-	    		if (a.body[i].body[i]._astname == "Assign"){
+	    		if (a.body[i].body[z]._astname == "Assign"){
 	    			console.log("encoded_locals", a.body[i].body[z].targets[0].id.v);
 	    			var_arr.push(a.body[i].body[z].targets[0].id.v);
 	    			console.log("value", value(a.body[i].body[z].value));
 	    			var_value.push(value(a.body[i].body[z].value));
 	    			console.log("ordered_varnames", a.body[i].body[z].targets[0].id.v);
+	    		}
+	    		else if (a.body[i].body[z]._astname == "FunctionDef"){
+	    		    console.log("encoded locals", a.body[i].body[z].name.v + "[REF," ref_no);
+	    		    console.log("ordered_varnames", a.body[i].body[z].name.v);
+	    		    var args = new Array();
+	    		    for (x=0 ; x<a.body[i].body[z].args.args.length; x++){
+	    		        args.push(a.body[i].body[z].args.args[x].id.v);
+	    		    }
+	    		    console.log("heap_args", args);
 	    		}
 	    	}
 	    	//call this function
