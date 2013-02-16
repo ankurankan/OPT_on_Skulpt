@@ -12145,6 +12145,8 @@ var temp_trace = new Array();
 	    			}
 	    			console.log("heap", "DICT" , var_arr, var_value);
 	    		}
+	    		
+	    		//Assignment inside classes
 	    		if (a.body[i].body[z]._astname == "Assign"){
 	    			console.log("encoded_locals", a.body[i].body[z].targets[0].id.v);
 	    			var_arr.push(a.body[i].body[z].targets[0].id.v);
@@ -12152,6 +12154,8 @@ var temp_trace = new Array();
 	    			var_value.push(value(a.body[i].body[z].value));
 	    			console.log("ordered_varnames", a.body[i].body[z].targets[0].id.v);
 	    		}
+	    		
+	    		// Method defination inside classes
 	    		else if (a.body[i].body[z]._astname == "FunctionDef"){
 	    		    console.log("encoded locals", a.body[i].body[z].name.v + "[REF," ref_no);
 	    		    console.log("ordered_varnames", a.body[i].body[z].name.v);
