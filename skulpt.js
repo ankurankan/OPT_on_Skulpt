@@ -12055,7 +12055,7 @@ var temp_trace = new Array();
 	// Examining each step of the execution
 	for (i = 0; i < a.body.length; i++){
 		//simple print
-	    if (a.body[i]._astname == "Print"){
+/**	    if (a.body[i]._astname == "Print"){
 	    	var to_print='';
 	    	for (z = 0; z<a.body[i].values.length; z++){
 	    		to_print+= String(value(a.body[i].values[z])) + " ";
@@ -12064,9 +12064,9 @@ var temp_trace = new Array();
 	    	trace.push(temp_trace.trace);
 	    	}
 	    }
-	    
+**/	    
 	    // For assignment operations
-	    else if (a.body[i]._astname == "Assign"){
+	    if (a.body[i]._astname == "Assign"){
 		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
 		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
 //		console.log("temp_trace", temp_trace.trace.ordered_globals);
@@ -12081,21 +12081,26 @@ var temp_trace = new Array();
 	    else if (a.body[i]._astname == "FunctionDef"){
 	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
 	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF",ref_no];
-	    	ref_no+=1;
 	    	arg_list = "(";
 	    	arg_arr = new Array();
 	    	//problem with heap
-	    	for (j =0; j<a.body[i].args.args.lenght; j++){
+/**
+	    	for (j =0; j<a.body[i].args.args.length; j++){
 	    		arg_arr[j] = a.body[i].args.args[j].id.v;
 	    	}
 	    	for (j=0; j<a.body[i].args.args.length;j++){
 	    		arg_list = arg_list+arg_arr[j] +",";
 	    	}
 	    	arg_list += arg_list[a.body[i].args.args.length-1];
-	    	arg_list = "a.body[i].name.v" + arg_list;
+	    	arg_list = String(a.body[i].name.v) + arg_list + ")";
+**/
+            arg_list = code.split("\n")[a.body[i].lineno - 1].split(":")[0].split("def ")
+            arg_list = arg_list[arg_list.length - 1]           
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
+	    	ref_no+=1;
 	    	trace.trace.push(temp_trace.trace);
 	    	console.log("temp_trace", temp_trace);
+	    	console.log("trace", trace);
 	    }
 	    
 	    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12162,7 +12167,7 @@ var temp_trace = new Array();
 	    		
 	    		// Method defination inside classes
 	    		else if (a.body[i].body[z]._astname == "FunctionDef"){
-	    		    console.log("encoded locals", a.body[i].body[z].name.v + "[REF," ref_no);
+	    		    console.log("encoded locals", a.body[i].body[z].name.v + "[REF," + ref_no);
 	    		    console.log("ordered_varnames", a.body[i].body[z].name.v);
 	    		    var args = new Array();
 	    		    for (x=0 ; x<a.body[i].body[z].args.args.length; x++){
