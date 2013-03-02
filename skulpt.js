@@ -943,7 +943,7 @@
             d.prototype.$r = function () {
                 var f = this.tp$getattr("__repr__");
                 if (f !== undefined) return Sk.misceval.apply(f,
-                undefined, undefitp$callned, undefined, []);
+                undefined, undefined, undefined, []);
                 f = c.__module__;
                 var g = "";
                 if (f) g = f.v + ".";
@@ -983,7 +983,7 @@
             return d
         }
     };
-    Sk.builtin.type.makeTypeObj =tp$call function (a, b) {
+    Sk.builtin.type.makeTypeObj = function (a, b) {
         Sk.builtin.type.makeIntoTypeObj(a, b);
         return b
     };
@@ -1328,11 +1328,10 @@
     };
     goog.exportSymbol("Sk.misceval.loadname", Sk.misceval.loadname);
     Sk.misceval.call = function (a, b, c, d, e) {
-        console.log("Inside call");
+        console.trace();
         e = Array.prototype.slice.call(arguments, 4);
         return Sk.misceval.apply(a, b, c, d, e)
     };
-    
     
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
@@ -1357,6 +1356,7 @@
             return a.apply(null, e)
         } else {
             var f = a.tp$call;
+            console.log("f", f);
             if (f !== undefined) {
                 if (c) {
                     c = c.tp$iter();
@@ -1505,7 +1505,7 @@
 
 
     Sk.abstr.numberBinOp = function (a, b, c) {
-//	console.trace();
+    	console.trace();
         var d = Sk.abstr.boNumPromote_[c];
         if (d !== undefined) {
             d = Sk.abstr.numOpAndPromote(a, b, d);
@@ -1517,20 +1517,12 @@
         }
         return Sk.abstr.binary_op_(a, b, c)
     };
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     goog.exportSymbol("Sk.abstr.numberBinOp", Sk.abstr.numberBinOp);
+    
+    
+    
+    
+    
     Sk.abstr.numberInplaceBinOp = function (a, b, c) {
         var d = Sk.abstr.boNumPromote_[c];
         if (d !== undefined) {
