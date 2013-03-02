@@ -1355,7 +1355,7 @@
                     for (var g = c.tp$iternext(); g !== undefined; g = c.tp$iternext()) e.push(g)
                 }
                 b && goog.asserts.fail("todo;");
-//                console.log("f.call", f.call(a,e,d,b));
+                console.log("f.call", f.call(a,e,d,b));
                 //breakpoint
                 return f.call(a, e, d, b)
             }
@@ -11999,6 +11999,7 @@ var unique_hash_no = 1, frame_id = 1;
 var code;
 var trace;
 var temp_trace = new Array();
+var func_args_dict = {};
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
@@ -12006,7 +12007,7 @@ var temp_trace = new Array();
 
 
 ////////////////////////////////mycode/////////////////////////////////	
-      // trace to be sent back to the frontend
+    // trace to be sent back to the frontend
 	trace = {"code":code,
 		 "trace":[
 		     {
@@ -12048,6 +12049,7 @@ var temp_trace = new Array();
           "unique_hash": "", 
           "ordered_varnames": []
         };
+        
 //	console.log("trace", trace);
 //	console.log("temp_trace", temp_trace);
 	ref_no = 1;
@@ -12094,6 +12096,15 @@ var temp_trace = new Array();
 	    	arg_list += arg_list[a.body[i].args.args.length-1];
 	    	arg_list = String(a.body[i].name.v) + arg_list + ")";
 **/
+
+
+            var func_arg_list =  new Array();
+            for (z=0; z<a.body[i].args.args.length; z++){
+                func_arg_list.push(a.body[i].args.args[z].id.v);
+            }
+            func_args_dict[a.body[i].name.v] = func_arg_list;
+            
+            
             arg_list = code.split("\n")[a.body[i].lineno - 1].split(":")[0].split("def ")
             arg_list = arg_list[arg_list.length - 1]           
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
@@ -12112,22 +12123,32 @@ var temp_trace = new Array();
 	    else if (a.body[i]._astname == "Expr"){
 	    	if (a.body[i].value._astname == "Call"){
 	    		func_name = a.body[i].value.func.id.v;
-	    		console.log("func_name", func_name);
-	    		console.log("frame_id", frame_id);
-	    		frame_id += 1;
+//	    		console.log("func_name", func_name);
+                stack_to_render.func_name = func_name;
+//	    		console.log("frame_id", frame_id);
+                stack_to_render.frame_id = frame_id;
 	    		unique_hash = a.body[i].value.func.id.v + "_f"+ String(unique_hash_no);
-	    		console.log("unique_hash", unique_hash);
-	    		func_args_vars = trace.trace[trace.trace.length-1].heap.String(trace.trace[trace.trace.length-1].globals.func_name[1])[1].split("(")[1].split(",");
-	    		func_args_vars[func_args_vars.length-1] = func_args_vars[func_args_vars.length-1].split("(")[0];
-	    		console.log("ordered_varnames", func_args_vars);
+//	    		console.log("unique_hash", unique_hash);
+                stack_to_render.unique_hash = unique_hash;
+//	    		func_args_vars = trace.trace[trace.trace.length-1].heap.String(trace.trace[trace.trace.length-1].globals.func_name[1])[1].split("(")[1].split(",");
+                func_args_vars = func_args_dict[a.body[i].value.func.id.v];
+//	    		func_args_vars[func_args_vars.length-1] = func_args_vars[func_args_vars.length-1].split("(")[0];
+//	    		console.log("ordered_varnames", func_args_vars);
 	    		func_args_values = a.body[i].value.args;
+	    		//extracting value from each argument
 	    		for (z = 0; z< func_args_values.length ; z++){
 	    			func_args_values[z] = value(func_args_values[z]);
 	    		}
-	    		console.log("encoded locals");
-	    		for (z = 0; z<func_args_values.length ; z++){
-	    			console.log(func_args_vars[z], func_args_values[z]);
-	    		}
+	    		frame_id += 1;
+//	    		console.log("encoded locals");
+//	    		for (z = 0; z<func_args_values.length ; z++){
+//	    			console.log(func_args_vars[z], func_args_values[z]);
+//	    		}
+	            for (z = 0; z<func_args_values.length; z++){
+	                stack_to_render.encoded_locals[func_args_vars[z]] = func_args_values[z];
+	                stack_to_render.ordered_varnames.push(func_args_vars[z]);
+	            }
+	    		console.log("stack to render" , stack_to_render);
 	    	}
 	    }
 	    
