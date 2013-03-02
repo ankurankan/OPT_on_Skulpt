@@ -943,7 +943,7 @@
             d.prototype.$r = function () {
                 var f = this.tp$getattr("__repr__");
                 if (f !== undefined) return Sk.misceval.apply(f,
-                undefined, undefined, undefined, []);
+                undefined, undefitp$callned, undefined, []);
                 f = c.__module__;
                 var g = "";
                 if (f) g = f.v + ".";
@@ -983,7 +983,7 @@
             return d
         }
     };
-    Sk.builtin.type.makeTypeObj = function (a, b) {
+    Sk.builtin.type.makeTypeObj =tp$call function (a, b) {
         Sk.builtin.type.makeIntoTypeObj(a, b);
         return b
     };
@@ -1328,22 +1328,30 @@
     };
     goog.exportSymbol("Sk.misceval.loadname", Sk.misceval.loadname);
     Sk.misceval.call = function (a, b, c, d, e) {
+        console.log("Inside call");
         e = Array.prototype.slice.call(arguments, 4);
         return Sk.misceval.apply(a, b, c, d, e)
     };
+    
+    
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
-    //breakpoint
-//    	console.log("tracing Sk.misceval.callsim");
-//    	console.trace();
+        //breakpoint
+        console.log("inside callsim");
+    	console.log("a", a, "b", b);
+//    	console.log("tracing callsim")
+//       	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
-//        console.log("b", b);
+        console.log("b", b);
         return Sk.misceval.apply(a, undefined, undefined, undefined, b)
     };
     goog.exportSymbol("Sk.misceval.callsim", Sk.misceval.callsim);
+    
+    
+    
     Sk.misceval.apply = function (a, b, c, d, e) {
-//    	console.log("tracing Sk.misceval.apply");
-//    	console.trace();
+    	console.log("tracing Sk.misceval.apply");
+        console.log("a", a, "b", b, "c", c, "d", d, "e", e);
         if (typeof a === "function") {
             goog.asserts.assert(d === undefined);
             return a.apply(null, e)
