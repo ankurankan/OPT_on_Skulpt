@@ -1336,8 +1336,8 @@
     goog.exportSymbol("Sk.misceval.call", Sk.misceval.call);
     Sk.misceval.callsim = function (a, b) {
         //breakpoint
-        console.log("inside callsim");
-    	console.log("a", a, "b", b);
+//        console.log("inside callsim");
+//    	console.log("a", a, "b", b);
 //    	console.log("tracing callsim")
 //       	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
@@ -1349,8 +1349,8 @@
     
     
     Sk.misceval.apply = function (a, b, c, d, e) {
-    	console.log("tracing Sk.misceval.apply");
-        console.log("a", a, "b", b, "c", c, "d", d, "e", e);
+//    	console.log("tracing Sk.misceval.apply");
+//        console.log("a", a, "b", b, "c", c, "d", d, "e", e);
         if (typeof a === "function") {
             goog.asserts.assert(d === undefined);
             return a.apply(null, e)
@@ -1505,7 +1505,7 @@
 
 
     Sk.abstr.numberBinOp = function (a, b, c) {
-    	console.trace();
+//    	console.trace();
         var d = Sk.abstr.boNumPromote_[c];
         if (d !== undefined) {
             d = Sk.abstr.numOpAndPromote(a, b, d);
@@ -12000,15 +12000,19 @@ var code;
 var trace;
 var temp_trace = new Array();
 var func_args_dict = {};
+var fuck = 0;
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
         console.log("a", a);
-
-
+        //console.trace();
 ////////////////////////////////mycode/////////////////////////////////	
     // trace to be sent back to the frontend
-	trace = {"code":code,
+/**        if (fuck==1){
+            fuck = 0;
+            return
+            }
+**/	trace = {"code":code,
 		 "trace":[
 		     {
 			 "ordered_globals":[],
@@ -12149,7 +12153,17 @@ var func_args_dict = {};
 	                stack_to_render.ordered_varnames.push(func_args_vars[z]);
 	            }
 	    		console.log("stack to render" , stack_to_render);
-	    	}
+	    ///////////////////////////Check Sk.misceval.callsim and apply ///////////////////////////////////////
+//	    		Sk.compile(a="i = 10\ni=i+10\ni=i+20", b="<stdin>.py");
+/**                a = "<stdin>.py";
+                b = false;
+                c = "__main__";
+                d =  "i = 10\ni=i+10\ni=i+20";
+                console.log("I came till here");
+	    		Sk.importModuleInternal_(a, b, c, d);
+	    		console.log("I even crossed it");
+	    		fuck = 1;
+**/	    	}
 	    }
 	    
 	    //For class definations
@@ -12324,6 +12338,7 @@ var func_args_dict = {};
 
 
     Sk.compile = function (a, b) {
+        console.trace();
         var c = Sk.parse(b, a);
         c = Sk.astFromParse(c, b);
         var d = Sk.symboltable(c, b);
@@ -12388,6 +12403,7 @@ var func_args_dict = {};
 
 
     Sk.importModuleInternal_ = function (a, b, c, d) {
+        console.log("Atleast I was called");
         Sk.importSetUpPath();
         if (c === undefined) c = a;
         var e = null,
