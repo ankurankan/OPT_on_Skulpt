@@ -11961,7 +11961,6 @@ value = function(obj){
 //Recursion function for binary operations
 
 BinOper = function (obj){
-    console.log("upper check", obj);
     if (obj.left._astname == "BinOp"){
 	left = BinOper(obj.left);
     }
@@ -12001,6 +12000,7 @@ var trace;
 var temp_trace = new Array();
 var func_args_dict = {};
 var fuck = 0;
+//console.log("assigning fuck")
 //////////////////////////////////////  CMOD   /////////////////////////
 
     Compiler.prototype.cmod = function (a) {
@@ -12009,10 +12009,12 @@ var fuck = 0;
 ////////////////////////////////mycode/////////////////////////////////	
     // trace to be sent back to the frontend
 /**        if (fuck==1){
+            console.log("inside fuck", fuck);
             fuck = 0;
             return
-            }
-**/	trace = {"code":code,
+           }
+**/
+	trace = {"code":code,
 		 "trace":[
 		     {
 			 "ordered_globals":[],
@@ -12081,6 +12083,7 @@ var fuck = 0;
 //		console.log("value",value(a.body[i].value));
 //		console.log("temp_trace", temp_trace);
 		trace.trace.push(temp_trace.trace);
+		console.log("Assign trace", trace);
 	    }
 	    
 	    // For function Definations
@@ -12154,8 +12157,9 @@ var fuck = 0;
 	            }
 	    		console.log("stack to render" , stack_to_render);
 	    ///////////////////////////Check Sk.misceval.callsim and apply ///////////////////////////////////////
-//	    		Sk.compile(a="i = 10\ni=i+10\ni=i+20", b="<stdin>.py");
-/**                a = "<stdin>.py";
+	    		Sk.compile(a="i = 10\ni=i+10\ni=i+20\nreturn(i)", b="<stdin>.py");
+	    		fuck = 1;
+/*                a = "<stdin>.py";
                 b = false;
                 c = "__main__";
                 d =  "i = 10\ni=i+10\ni=i+20";
@@ -12163,7 +12167,9 @@ var fuck = 0;
 	    		Sk.importModuleInternal_(a, b, c, d);
 	    		console.log("I even crossed it");
 	    		fuck = 1;
-**/	    	}
+	    		console.log("fuck after assigning 1", fuck);
+*/
+	    	}
 	    }
 	    
 	    //For class definations
@@ -12403,7 +12409,8 @@ var fuck = 0;
 
 
     Sk.importModuleInternal_ = function (a, b, c, d) {
-        console.log("Atleast I was called");
+        console.log ("a", a, "b", b, "c", c, "d", d);
+//        console.log("Atleast I was called");
         Sk.importSetUpPath();
         if (c === undefined) c = a;
         var e = null,
