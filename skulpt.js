@@ -1341,7 +1341,7 @@
 //    	console.log("tracing callsim")
 //       	console.trace();
         b = Array.prototype.slice.call(arguments, 1);
-        console.log("b", b);
+//        console.log("b", b);
         return Sk.misceval.apply(a, undefined, undefined, undefined, b)
     };
     goog.exportSymbol("Sk.misceval.callsim", Sk.misceval.callsim);
@@ -1356,14 +1356,14 @@
             return a.apply(null, e)
         } else {
             var f = a.tp$call;
-            console.log("f", f);
+ //           console.log("f", f);
             if (f !== undefined) {
                 if (c) {
                     c = c.tp$iter();
                     for (var g = c.tp$iternext(); g !== undefined; g = c.tp$iternext()) e.push(g)
                 }
                 b && goog.asserts.fail("todo;");
-                console.log("f.call", f.call(a,e,d,b));
+//                console.log("f.call", f.call(a,e,d,b));
                 //breakpoint
                 return f.call(a, e, d, b)
             }
@@ -11914,7 +11914,7 @@ value = function(obj){
 	for (j=0; j<obj.elts.length; j++){
 	    values[j] = value(obj.elts[j]);				
 	}
-	console.log(values);
+//	console.log(values);
 	return(values);
     }
     else if (obj._astname == "Dict"){
@@ -12007,13 +12007,6 @@ var fuck = 0;
         console.log("a", a);
         //console.trace();
 ////////////////////////////////mycode/////////////////////////////////	
-    // trace to be sent back to the frontend
-/**        if (fuck==1){
-            console.log("inside fuck", fuck);
-            fuck = 0;
-            return
-           }
-**/
 	trace = {"code":code,
 		 "trace":[
 		     {
@@ -12045,14 +12038,14 @@ var fuck = 0;
 		     };
     
     stack_to_render = {
-          "frame_id": 1, 
-          "encoded_locals": {}, 
-          "is_highlighted": true, 
-          "is_parent": false, 
-          "func_name": "", 
-          "is_zombie": false, 
-          "parent_frame_id_list": [], 
-          "unique_hash": "", 
+          "frame_id": 1,
+          "encoded_locals": {},
+          "is_highlighted": true,
+          "is_parent": false,
+          "func_name": "",
+          "is_zombie": false,
+          "parent_frame_id_list": [],
+          "unique_hash": "",
           "ordered_varnames": []
         };
         
@@ -12075,15 +12068,14 @@ var fuck = 0;
 **/	    
 	    // For assignment operations
 	    if (a.body[i]._astname == "Assign"){
-		temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
-		temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
-//		console.log("temp_trace", temp_trace.trace.ordered_globals);
-//		console.log("temp_trace_globals", temp_trace.trace.globals);
-//		console.log("ordered globals", a.body[i].targets[0].id.v);
-//		console.log("value",value(a.body[i].value));
-//		console.log("temp_trace", temp_trace);
-		trace.trace.push(temp_trace.trace);
-		console.log("Assign trace", trace);
+			temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
+			temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
+			if (i == a.body.length-1)
+				temp_trace.trace.event = "return"
+			else
+				temp_trace.trace.event = "step_line"
+			trace.trace.push(temp_trace.trace);
+			console.log("Assign trace", trace);
 	    }
 	    
 	    // For function Definations
@@ -12409,7 +12401,7 @@ var fuck = 0;
 
 
     Sk.importModuleInternal_ = function (a, b, c, d) {
-        console.log ("a", a, "b", b, "c", c, "d", d);
+//        console.log ("a", a, "b", b, "c", c, "d", d);
 //        console.log("Atleast I was called");
         Sk.importSetUpPath();
         if (c === undefined) c = a;
