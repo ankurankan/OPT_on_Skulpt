@@ -12004,10 +12004,11 @@ copy_to_trace = function(trace, temp_trace){
 			 "line":1,
 			 "event":"step_line"
 		     }
-	empty_values["ordered_globals"] = temp_trace["trace"]["ordered_globals"];
+	empty_values["ordered_globals"].push(temp_trace["trace"]["ordered_globals"].slice());
 	empty_values["stdout"] = temp_trace["trace"]["stdout"];
 	empty_values["func_name"] = temp_trace["trace"]["func_name"];
-	empty_values["stack_to_render"] = temp_trace["trace"]["stack_to_render"];
+	for (var i=0; i<temp_trace["trace"]["stack_to_render"].length; i++)
+		empty_values["stack_to_render"][i] = temp_trace["trace"]["stack_to_render"][i];
 	empty_values["globals"] = temp_trace["trace"]["globals"];
 	empty_values["heap"] = temp_trace["trace"]["heap"];
 	empty_values["line"] = temp_trace["trace"]["line"];
