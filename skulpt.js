@@ -11993,6 +11993,30 @@ BinOper = function (obj){
 								
 
 */
+copy_to_trace = function(trace, temp_trace){
+	empty_values = {
+			 "ordered_globals":[],
+			 "stdout":"",
+			 "func_name":"<module>",
+			 "stack_to_render":[],
+			 "globals":{},
+			 "heap":{},
+			 "line":1,
+			 "event":"step_line"
+		     }
+	empty_values["ordered_globals"] = temp_trace["trace"]["ordered_globals"];
+	empty_values["stdout"] = temp_trace["trace"]["stdout"];
+	empty_values["func_name"] = temp_trace["trace"]["func_name"];
+	empty_values["stack_to_render"] = temp_trace["trace"]["stack_to_render"];
+	empty_values["globals"] = temp_trace["trace"]["globals"];
+	empty_values["heap"] = temp_trace["trace"]["heap"];
+	empty_values["line"] = temp_trace["trace"]["line"];
+	empty_values["event"] = temp_trace["trace"]["event"];
+	trace.trace.push(empty_values)
+	return(trace);
+	
+	
+}
 //////////////////////////////////////variables////////////////////////////
 var unique_hash_no = 1, frame_id = 1;
 var code;
@@ -12074,8 +12098,9 @@ var fuck = 0;
 				temp_trace.trace.event = "return"
 			else
 				temp_trace.trace.event = "step_line"
-			trace.trace.push(temp_trace.trace);
-			console.log("Assign trace", trace);
+			console.log("temp_trace", temp_trace)
+//			trace.trace.push(temp_trace.trace);
+			trace = copy_to_trace(trace, temp_trace);
 	    }
 	    
 	    // For function Definations
@@ -12213,6 +12238,7 @@ var fuck = 0;
 	    }
 //	    console.log("trace", trace);
 	};
+	console.log("trace", trace)
 	    
 	    
 	    
