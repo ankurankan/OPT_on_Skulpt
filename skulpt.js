@@ -12081,16 +12081,14 @@ var fuck = 0;
 	// Examining each step of the execution
 	for (i = 0; i < a.body.length; i++){
 		//simple print
-/**	    if (a.body[i]._astname == "Print"){
-	    	var to_print='';
-	    	for (z = 0; z<a.body[i].values.length; z++){
-	    		to_print+= String(value(a.body[i].values[z])) + " ";
-	    	console.log("to_print", to_print);
-	    	temp_trace.trace.stdout += to_print;
-	    	trace.push(temp_trace.trace);
-	    	}
+	    if (a.body[i]._astname == "Print"){
+	    	var print='';
+	    	for (z = 0; z<a.body[i].values.length; z++)
+	    		print+= String(value(a.body[i].values[z])) + " ";
+	    	temp_trace.trace.stdout += print;
+	    	trace.trace.push(temp_trace.trace);
 	    }
-**/	    
+	    
 	    // For assignment operations
 	    if (a.body[i]._astname == "Assign"){
 	    	if (temp_trace.trace.ordered_globals.indexOf(a.body[i].targets[0].id.v) == -1)

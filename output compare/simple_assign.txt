@@ -175,3 +175,70 @@ a = 10
     }
   ]
 }
+============================================================================================
+print "hello"
+-------------------------------------------------------------------------------------------
+{
+  "code": "print \"hello\"\n", 
+  "trace": [
+    {
+      "ordered_globals": [], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [], 
+      "stdout": "hello\n", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "return"
+    }
+  ]
+}
+============================================================================================
+print "hello"
+print "world"
+--------------------------------------------------------------------------------------------
+{
+  "code": "print \"hello\"\nprint \"world\"\n", 
+  "trace": [
+    {
+      "ordered_globals": [], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [], 
+      "stdout": "hello\n", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 2, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [],
+      "stdout": "hello\nworld\n", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 2, 
+      "event": "return"
+    }
+  ]
+}
