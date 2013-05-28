@@ -12086,7 +12086,11 @@ var fuck = 0;
 	    	for (z = 0; z<a.body[i].values.length; z++)
 	    		print+= String(value(a.body[i].values[z])) + " ";
 	    	temp_trace.trace.stdout += print;
-	    	trace.trace.push(temp_trace.trace);
+	    	if (i == a.body.length-1)
+	    		temp_trace.trace.event = "return";
+	    	else:
+	    		temp_trace.trace.event = "step_line";
+	    	trace.trace.push(temp_trace.trace); // TODO DeepCopy
 	    }
 	    
 	    // For assignment operations
@@ -12099,8 +12103,7 @@ var fuck = 0;
 			else
 				temp_trace.trace.event = "step_line"
 			console.log("temp_trace", temp_trace)
-			trace.trace.push(temp_trace.trace);
-// 			trace = copy_to_trace(trace, temp_trace); //needs deep copy
+			trace.trace.push(temp_trace.trace); // TODO DeepCopy 
 	    }
 	    
 	    // For function Definations

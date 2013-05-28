@@ -242,3 +242,45 @@ print "world"
     }
   ]
 }
+============================================================================================
+def fun():
+    a = 5
+--------------------------------------------------------------------------------------------
+{
+  "code": "def fun():\n    a = 5\n", 
+  "trace": [
+    {
+      "ordered_globals": [], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [
+        "fun"
+      ], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {
+        "fun": [
+          "REF", 
+          1
+        ]
+      }, 
+      "heap": {
+        "1": [
+          "FUNCTION", 
+          "fun()", 
+          null
+        ]
+      }, 
+      "line": 1, 
+      "event": "return"
+    }
+  ]
+}
