@@ -12019,12 +12019,13 @@ copy_to_trace = function(trace, temp_trace){
 	return(trace);
 } *///
 //////////////////////////////////////variables////////////////////////////
-var unique_hash_no = 1, frame_id = 1;
+var unique_hash_no = 1;
+var frame_id = 1;
+ref_no = 1;
 var code;
 var trace;
 var temp_trace = new Array();
 var func_args_dict = {};
-var fuck = 0;
 //console.log("assigning fuck")
 //////////////////////////////////////  CMOD   /////////////////////////
 
@@ -12073,13 +12074,10 @@ var fuck = 0;
           "unique_hash": "",
           "ordered_varnames": []
         };
-        
-//	console.log("trace", trace);
-//	console.log("temp_trace", temp_trace);
-	ref_no = 1;
 	
 	// Examining each step of the execution
 	for (i = 0; i < a.body.length; i++){
+		
 		//simple print
 	    if (a.body[i]._astname == "Print"){
 	    	var print='';
@@ -12097,6 +12095,7 @@ var fuck = 0;
 	    	trace.trace.push(temp_trace.trace); // TODO DeepCopy
 	    }
 	    
+	    
 	    // For assignment operations
 	    if (a.body[i]._astname == "Assign"){
 	    	if (temp_trace.trace.ordered_globals.indexOf(a.body[i].targets[0].id.v) == -1)
@@ -12109,10 +12108,12 @@ var fuck = 0;
 			trace.trace.push(temp_trace.trace); // TODO DeepCopy 
 	    }
 	    
+	    
 	    // For function Definations
 	    else if (a.body[i]._astname == "FunctionDef"){
 	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
 	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF",ref_no];
+	    	ref_no += 1;
 	    	arg_list = "(";
 	    	arg_arr = new Array();
 	    	//problem with heap
@@ -12135,10 +12136,9 @@ var fuck = 0;
             func_args_dict[a.body[i].name.v] = func_arg_list;
             
             
-            arg_list = code.split("\n")[a.body[i].lineno - 1].split(":")[0].split("def ")
-            arg_list = arg_list[arg_list.length - 1]           
+            arg_list = code.split("\n")[a.body[i].lineno - 1].split(":")[0].split("def ");
+            arg_list = arg_list[arg_list.length - 1];
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
-	    	ref_no+=1;
 	    	trace.trace.push(temp_trace.trace);
 	    	console.log("temp_trace", temp_trace);
 	    	console.log("trace", trace);

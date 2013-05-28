@@ -332,3 +332,88 @@ def fun():
     }
   ]
 }
+============================================================================================
+def fun(a):
+    a = 5
+--------------------------------------------------------------------------------------------
+{
+  "code": "def fun(a):\n\ta = 5\n", 
+  "trace": [
+    {
+      "ordered_globals": [], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [
+        "fun"
+      ], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {
+        "fun": [
+          "REF", 
+          1
+        ]
+      }, 
+      "heap": {
+        "1": [
+          "FUNCTION", 
+          "fun(a)", 
+          null
+        ]
+      }, 
+      "line": 1, 
+      "event": "return"
+    }
+  ]
+}
+============================================================================================
+def fun(a):
+    a = 5
+    return
+--------------------------------------------------------------------------------------------
+{
+  "code": "def fun(a):\n    a = 5\n    return\n", 
+  "trace": [
+    {
+      "ordered_globals": [], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {}, 
+      "heap": {}, 
+      "line": 1, 
+      "event": "step_line"
+    }, 
+    {
+      "ordered_globals": [
+        "fun"
+      ], 
+      "stdout": "", 
+      "func_name": "<module>", 
+      "stack_to_render": [], 
+      "globals": {
+        "fun": [
+          "REF", 
+          1
+        ]
+      }, 
+      "heap": {
+        "1": [
+          "FUNCTION", 
+          "fun(a)", 
+          null
+        ]
+      }, 
+      "line": 1, 
+      "event": "return"
+    }
+  ]
+}
