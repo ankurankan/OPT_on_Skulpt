@@ -11993,6 +11993,8 @@ BinOper = function (obj){
 								
 
 */
+
+/*** deep copy function
 copy_to_trace = function(trace, temp_trace){
 	empty_values = {
 			 "ordered_globals":[],
@@ -12015,9 +12017,7 @@ copy_to_trace = function(trace, temp_trace){
 	empty_values["event"] = temp_trace["trace"]["event"];
 	trace.trace.push(empty_values)
 	return(trace);
-	
-	
-}
+} *///
 //////////////////////////////////////variables////////////////////////////
 var unique_hash_no = 1, frame_id = 1;
 var code;
@@ -12093,15 +12093,16 @@ var fuck = 0;
 **/	    
 	    // For assignment operations
 	    if (a.body[i]._astname == "Assign"){
-			temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
+	    	if (temp_trace.trace.ordered_globals.indexOf(a.body[i].targets[0].id.v) == -1)
+				temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
 			temp_trace.trace.globals[a.body[i].targets[0].id.v] = value(a.body[i].value);
 			if (i == a.body.length-1)
 				temp_trace.trace.event = "return"
 			else
 				temp_trace.trace.event = "step_line"
 			console.log("temp_trace", temp_trace)
-//			trace.trace.push(temp_trace.trace);
-			trace = copy_to_trace(trace, temp_trace);
+			trace.trace.push(temp_trace.trace);
+// 			trace = copy_to_trace(trace, temp_trace); //needs deep copy
 	    }
 	    
 	    // For function Definations
