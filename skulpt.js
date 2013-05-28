@@ -12083,12 +12083,16 @@ var fuck = 0;
 		//simple print
 	    if (a.body[i]._astname == "Print"){
 	    	var print='';
-	    	for (z = 0; z<a.body[i].values.length; z++)
-	    		print+= String(value(a.body[i].values[z])) + " ";
+	    	for (z = 0; z<a.body[i].values.length; z++){
+	    		if (String(value(a.body[i].values[z])) == "undefined")
+	    			print+= String(trace.trace[trace.trace.length-1].globals[a.body[i].values[z].id.v]);
+	    		else
+	    			print+= String(value(a.body[i].values[z])) + " ";
+	    	}
 	    	temp_trace.trace.stdout += print;
 	    	if (i == a.body.length-1)
 	    		temp_trace.trace.event = "return";
-	    	else:
+	    	else
 	    		temp_trace.trace.event = "step_line";
 	    	trace.trace.push(temp_trace.trace); // TODO DeepCopy
 	    }
@@ -12102,7 +12106,6 @@ var fuck = 0;
 				temp_trace.trace.event = "return"
 			else
 				temp_trace.trace.event = "step_line"
-			console.log("temp_trace", temp_trace)
 			trace.trace.push(temp_trace.trace); // TODO DeepCopy 
 	    }
 	    
