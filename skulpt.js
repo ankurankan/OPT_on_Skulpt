@@ -12357,7 +12357,7 @@ var func_args_dict = {};
 
 
     Sk.compile = function (a, b) {
-        console.trace();
+//        console.trace();
         var c = Sk.parse(b, a);
         c = Sk.astFromParse(c, b);
         var d = Sk.symboltable(c, b);
