@@ -12169,8 +12169,8 @@ var func_args_dict = {};
 	            }
 	    		console.log("stack to render" , stack_to_render);
 	    ///////////////////////////Check Sk.misceval.callsim and apply ///////////////////////////////////////
-	    		Sk.compile(a="i = 10\ni=i+10\ni=i+20\nreturn(i)", b="<stdin>.py");
-	    		fuck = 1;
+//	    		Sk.compile(a="i = 10\ni=i+10\ni=i+20\nreturn(i)", b="<stdin>.py");
+//	    		fuck = 1;
 /*                a = "<stdin>.py";
                 b = false;
                 c = "__main__";
