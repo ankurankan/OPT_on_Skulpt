@@ -1328,7 +1328,7 @@
     };
     goog.exportSymbol("Sk.misceval.loadname", Sk.misceval.loadname);
     Sk.misceval.call = function (a, b, c, d, e) {
-        console.trace();
+//        console.trace();
         e = Array.prototype.slice.call(arguments, 4);
         return Sk.misceval.apply(a, b, c, d, e)
     };
