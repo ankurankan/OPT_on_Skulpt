@@ -12112,22 +12112,8 @@ var func_args_dict = {};
 	    // For function Definations
 	    else if (a.body[i]._astname == "FunctionDef"){
 	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
-	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF",ref_no];
-	    	ref_no += 1;
-	    	arg_list = "(";
+	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF", ref_no];
 	    	arg_arr = new Array();
-	    	//problem with heap
-/**
-	    	for (j =0; j<a.body[i].args.args.length; j++){
-	    		arg_arr[j] = a.body[i].args.args[j].id.v;
-	    	}
-	    	for (j=0; j<a.body[i].args.args.length;j++){
-	    		arg_list = arg_list+arg_arr[j] +",";
-	    	}
-	    	arg_list += arg_list[a.body[i].args.args.length-1];
-	    	arg_list = String(a.body[i].name.v) + arg_list + ")";
-**/
-
 
             var func_arg_list =  new Array();
             for (z=0; z<a.body[i].args.args.length; z++){
@@ -12135,12 +12121,15 @@ var func_args_dict = {};
             }
             func_args_dict[a.body[i].name.v] = func_arg_list;
             
-            
             arg_list = code.split("\n")[a.body[i].lineno - 1].split(":")[0].split("def ");
             arg_list = arg_list[arg_list.length - 1];
 	    	temp_trace.trace.heap[String(ref_no)] = ["FUNCTION", arg_list, null];
+	    	ref_no += 1;
+	    	if (i == a.body.length-1)
+				temp_trace.trace.event = "return"
+			else
+				temp_trace.trace.event = "step_line"
 	    	trace.trace.push(temp_trace.trace);
-	    	console.log("temp_trace", temp_trace);
 	    	console.log("trace", trace);
 	    }
 	    
