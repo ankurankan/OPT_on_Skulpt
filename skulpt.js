@@ -12078,7 +12078,7 @@ var func_args_dict = {};
 	// Examining each step of the execution
 	for (i = 0; i < a.body.length; i++){
 		
-		//simple print
+		// Simple print
 	    if (a.body[i]._astname == "Print"){
 	    	var print='';
 	    	for (z = 0; z<a.body[i].values.length; z++){
@@ -12096,7 +12096,7 @@ var func_args_dict = {};
 	    }
 	    
 	    
-	    // For assignment operations
+	    // Assignment operations
 	    if (a.body[i]._astname == "Assign"){
 	    	if (temp_trace.trace.ordered_globals.indexOf(a.body[i].targets[0].id.v) == -1)
 				temp_trace.trace.ordered_globals.push(a.body[i].targets[0].id.v);
@@ -12109,7 +12109,7 @@ var func_args_dict = {};
 	    }
 	    
 	    
-	    // For function Definations
+	    // Function Definitions
 	    else if (a.body[i]._astname == "FunctionDef"){
 	    	temp_trace.trace.ordered_globals.push(a.body[i].name.v);
 	    	temp_trace.trace.globals[a.body[i].name.v] = ["REF", ref_no];
@@ -12138,21 +12138,18 @@ var func_args_dict = {};
 	    ////////                for is_parent, is_zombie, parent_frame_id_list dig into OPT                                                     /////////
 	    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	    
-	    // For function calls 
+	    // Function calls 
 	    else if (a.body[i]._astname == "Expr"){
 	    	if (a.body[i].value._astname == "Call"){
 	    		func_name = a.body[i].value.func.id.v;
-//	    		console.log("func_name", func_name);
-                stack_to_render.func_name = func_name;
-//	    		console.log("frame_id", frame_id);
+	    		temp_trace["func_name"] = func_name;
+	    		
+	    		//Stack to render
+                stack_to_render["func_name"] = func_name;
                 stack_to_render.frame_id = frame_id;
 	    		unique_hash = a.body[i].value.func.id.v + "_f"+ String(unique_hash_no);
-//	    		console.log("unique_hash", unique_hash);
                 stack_to_render.unique_hash = unique_hash;
-//	    		func_args_vars = trace.trace[trace.trace.length-1].heap.String(trace.trace[trace.trace.length-1].globals.func_name[1])[1].split("(")[1].split(",");
                 func_args_vars = func_args_dict[a.body[i].value.func.id.v];
-//	    		func_args_vars[func_args_vars.length-1] = func_args_vars[func_args_vars.length-1].split("(")[0];
-//	    		console.log("ordered_varnames", func_args_vars);
 	    		func_args_values = a.body[i].value.args;
 	    		//extracting value from each argument
 	    		for (z = 0; z< func_args_values.length ; z++){
@@ -12167,7 +12164,8 @@ var func_args_dict = {};
 	                stack_to_render.encoded_locals[func_args_vars[z]] = func_args_values[z];
 	                stack_to_render.ordered_varnames.push(func_args_vars[z]);
 	            }
-	    		console.log("stack to render" , stack_to_render);
+	            temp_trace.trace.stack_to_render.push(stack_to_render);
+//	    		console.log("stack to render" , stack_to_render);
 	    ///////////////////////////Check Sk.misceval.callsim and apply ///////////////////////////////////////
 	    	}
 	    }
