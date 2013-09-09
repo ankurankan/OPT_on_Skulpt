@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test</title>
+		<script src ='another_js.js'></script>
+		<script type='text/javascript'>
+		function some_test(){
+			alert("Wow its working");
+		}
+		function init(){
+		    document.getElementById("Name").value = alpha;
+		    }
+		function createIframe(){
+			var i = document.createElement("iframe");
+			//i.src = "http://www.w3schools.com";
+			i.src = "test_html.html"
+			i.scrolling = "auto";
+			i.frameborder = "0";
+			i.width = "500px";
+			i.height = "500px";
+			document.getElementById("ankur").appendChild(i);
+			};
+		window.onload = some_test;
+		</script>
+	</head>
+	<body onload="init()">
+	    <input id="Name" type="textbox">
+		<button onclick='createIframe()'>Click me</button>
+		<div id='ankur'>
+		</div>
+</html>

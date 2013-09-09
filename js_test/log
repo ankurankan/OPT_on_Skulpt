@@ -1,0 +1,5 @@
+What I just did is loading an iframe on button click.
+Next I should simply have skulpt as the main page and then when the run button 
+would be pressed the new iframe will be loaded with the OPT page as source.
+And we will just need to access the variable in the skulpt.js from the iframe 
+page just don't know how.
