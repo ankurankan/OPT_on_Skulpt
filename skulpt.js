@@ -12017,7 +12017,7 @@ copy_to_trace = function(trace, temp_trace){
 	empty_values["event"] = temp_trace["trace"]["event"];
 	trace.trace.push(empty_values)
 	return(trace);
-} **/
+} *///
 //////////////////////////////////////variables////////////////////////////
 var unique_hash_no = 1;
 var frame_id = 1;
@@ -12220,11 +12220,7 @@ var func_args_dict = {};
 //	    console.log("trace", trace);
 	};
 	console.log("trace", trace)
-//	document.write(String(trace));
-	console.log("listSumTrace", listSumTrace);
-	
-	
-	
+	    
 	    
 	    
 /*	function call 
