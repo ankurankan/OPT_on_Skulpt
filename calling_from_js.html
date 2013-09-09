@@ -7,8 +7,20 @@
         output.innerHTML = output.innerHTML + text;
     }
 
+	function createIframe(){
+		var i = document.createElement("iframe");
+		//i.src = "http://www.w3schools.com";
+		i.src = "embedding-demo.html"
+		i.scrolling = "auto";
+		i.frameborder = "0";
+		i.width = "500px";
+		i.height = "500px";
+		document.getElementById("ankur").appendChild(i);
+		};
+
     function runit()
     {
+        createIframe();
         var prog = document.getElementById("code").value;
         var output = document.getElementById("output");
         output.innerHTML = '';
@@ -35,6 +47,7 @@ print "Hello World"
 a = Test()
 </textarea><br>
 <button onclick="runit()" type="button">Run</button>
+<div id='ankur'>
 </form>
 
 <pre id="output"></pre>
