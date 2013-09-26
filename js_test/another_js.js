@@ -1,1 +1,0 @@
-var alpha = 50;
